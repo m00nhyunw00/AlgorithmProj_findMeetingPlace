@@ -1,6 +1,7 @@
 import subway_graph
 import station_info
 from bfs import bfs
+from dijk import dijk
 
 def main():
     # 사용 예제
@@ -31,11 +32,11 @@ def main():
         subway_graph.make_stations(subway, line)  # 역간 간선 생성 및 연결
         subway_graph.connect_stations(subway, line, name)   # 지하철 노드 생성
 
-    subway_graph.add_weight_to_edge(subway, '충무로', '동대입구', 2)
-    subway_graph.add_weight_to_edge(subway, '동대입구', '약수', 3)
-    subway_graph.add_weight_to_edge(subway, '약수', '금호', 1)
-    subway_graph.add_weight_to_edge(subway, '금호', '옥수', 4)
-    subway_graph.add_weight_to_edge(subway, '옥수', '압구정', 2)
+    # subway_graph.add_weight_to_edge(subway, '충무로', '동대입구', 2)
+    # subway_graph.add_weight_to_edge(subway, '동대입구', '약수', 3)
+    # subway_graph.add_weight_to_edge(subway, '약수', '금호', 1)
+    # subway_graph.add_weight_to_edge(subway, '금호', '옥수', 4)
+    # subway_graph.add_weight_to_edge(subway, '옥수', '압구정', 2)
 
     # 출발지와 목적지 입력 받기
     start_station = input("출발역을 입력하세요: ")
@@ -43,6 +44,7 @@ def main():
 
     # BFS 경로 탐색
     bfs.bfs_search(subway, start_station, end_station)
+    dijk.dijkstra_search(subway, start_station, end_station)
 
     subway.visualize()
 

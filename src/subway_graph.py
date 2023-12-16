@@ -1,9 +1,13 @@
 import matplotlib.pyplot as plt
 import networkx as nx
+from queue import Queue
 from matplotlib import rc
 
-# rc('font', family='AppleGothic')
-# plt.rcParams['axes.unicode_minus'] = False
+font = 'AppleGothic'
+# font = 'MalgunGothic'
+
+rc('font', family=font)
+plt.rcParams['axes.unicode_minus'] = False
 
 class SubwayGraph:
     def __init__(self):
@@ -84,11 +88,12 @@ class SubwayGraph:
 
         node_classes = {node: data['node_class'] for node, data in self.graph.nodes(data=True)}
         edge_classes = {(node1, node2): data['edge_class'] for node1, node2, data in self.graph.edges(data=True)}
+        edge_weights = {(node1, node2): data['weight'] for node1, node2, data in self.graph.edges(data=True)}
 
         node_colors = [class_colors_node[node_classes[node]] for node in self.graph.nodes()]
         edge_colors = [class_colors_edge[edge_classes[edge]] for edge in self.graph.edges()]
 
-        nx.draw(self.graph, pos, with_labels=True, font_family='AppleGothic', font_weight='bold',
+        nx.draw(self.graph, pos, with_labels=True, font_family=font, font_weight='bold',
                 node_size=200, font_size=7, width=2, edge_color=edge_colors,
                 node_color=node_colors, ax=ax, alpha=0.7)
 
@@ -96,6 +101,9 @@ class SubwayGraph:
         searched_nodes = [node for node in self.graph.nodes() if node_classes[node] == 'searched']
         nx.draw_networkx_nodes(self.graph, pos, nodelist=searched_nodes, node_size=220, node_shape='s',
                                node_color='red', edgecolors='black', linewidths=1, ax=ax, alpha=0.9)
+
+        # 간선 가중치 시각화
+        # nx.draw_networkx_edge_labels(self.graph, pos, edge_labels=edge_weights)
 
         plt.show()
 
@@ -115,3 +123,47 @@ def connect_stations(object, line, line_num):
             if index + 1 < len(stations):
                 next_station = stations[index + 1]
                 object.add_connection(station, next_station, line_num)
+
+def add_weight_to_edge(object, station1, station2, weight):
+    object.graph[station1][station2]['weight'] = weight
+
+def bfs_search(object, start_station, end_station):
+    if start_station not in object.graph.nodes() or end_station not in object.graph.nodes():
+        print("출발역 또는 도착역이 그래프에 존재하지 않습니다.")
+        return
+
+    visited = set()
+    queue = Queue()
+    path = {}
+
+    queue.put(start_station)
+    visited.add(start_station)
+
+    while not queue.empty():
+        current_station = queue.get()
+
+        for neighbor in object.graph.neighbors(current_station):
+            if neighbor not in visited:
+                queue.put(neighbor)
+                visited.add(neighbor)
+                path[neighbor] = current_station
+
+                if neighbor == end_station:
+                    # 경로가 찾아졌으면 탐색 종료
+                    queue.queue.clear()
+                    break
+
+    if end_station not in path:
+        print("경로가 존재하지 않습니다.")
+        return
+
+    # 경로 출력
+    current = end_station
+    path_list = [current]
+
+    while current != start_station:
+        current = path[current]
+        path_list.append(current)
+
+    path_list.reverse()
+    print("경로:", path_list)

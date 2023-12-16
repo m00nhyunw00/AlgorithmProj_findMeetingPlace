@@ -1,5 +1,6 @@
 import subway_graph
 import station_info
+from bfs import bfs
 
 def main():
     # 사용 예제
@@ -41,7 +42,7 @@ def main():
     end_station = input("도착역을 입력하세요: ")
 
     # BFS 경로 탐색
-    subway_graph.bfs_search(subway, start_station, end_station)
+    bfs.bfs_search(subway, start_station, end_station)
 
     subway.visualize()
 

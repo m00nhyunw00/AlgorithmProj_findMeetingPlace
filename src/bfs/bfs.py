@@ -5,7 +5,7 @@ def bfs_search(object, start_station, end_station):
     start_time = time.time()
 
     if start_station not in object.graph.nodes() or end_station not in object.graph.nodes():
-        print("출발역 또는 도착역이 그래프에 존재하지 않습니다.")
+        print("출발역 또는 도착역이 그래프에 존재하지 않습니다.\n")
         return
 
     visited = set()
@@ -30,7 +30,7 @@ def bfs_search(object, start_station, end_station):
                     break
 
     if end_station not in path:
-        print("경로가 존재하지 않습니다.")
+        print("경로가 존재하지 않습니다.\n")
         return
 
     # 경로 출력

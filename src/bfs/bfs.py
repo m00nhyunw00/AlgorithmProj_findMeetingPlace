@@ -1,6 +1,9 @@
 from queue import Queue
+import time
 
 def bfs_search(object, start_station, end_station):
+    start_time = time.time()
+
     if start_station not in object.graph.nodes() or end_station not in object.graph.nodes():
         print("출발역 또는 도착역이 그래프에 존재하지 않습니다.")
         return
@@ -39,4 +42,8 @@ def bfs_search(object, start_station, end_station):
         path_list.append(current)
 
     path_list.reverse()
-    print("경로:", path_list)
+
+    end_time = time.time()
+
+    print("BFS 경로:", path_list)
+    print("소요시간:", end_time - start_time, "\n")

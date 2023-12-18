@@ -46,7 +46,17 @@ def bfs_search(object, start_station, end_station):
 
     path_list.reverse()
 
+    distance = 0
+
     end_time = time.perf_counter()
 
+    for i in range(len(path_list) - 1):
+        current_station = path_list[i]
+        next_station = path_list[i + 1]
+
+        weight = object.graph[current_station][next_station]['weight']
+        distance += weight
+
     print("BFS 경로:", path_list)
+    print("최단 거리:", distance)
     print("소요시간:", end_time - start_time, "\n")

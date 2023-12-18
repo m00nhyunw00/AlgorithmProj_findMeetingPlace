@@ -20,26 +20,30 @@ class Station:
 
 # heuristic: 해당 역에서 도착역까지 직선으로 이동했을 때 걸릴 예상 시간
 def heuristics(current_station, end_station):
-    
     # 지구 반지름 길이
-    R=6371.0
-    
+    R = 6371.0
+
     # 지하철 8개 노선의 운행 평균 속도
-    speed = 33.6
+    # speed = 33.6
+    speed = 70
     # station_info 내의 stations에서 두 역의 위도, 경도 정보를 얻어옴
     loccur = stations[current_station.name]
     locend = stations[end_station.name]
 
-    # 지하철역의 위도, 경도값을 이용해 두 지점 간의 실제 거리(km 단위) 계산
-    # 구현 방법은 Haversine 공식 참조
-    diff_lat = abs(loccur[0] - locend[0])
-    diff_log = abs(loccur[1] - locend[1])
+    # 각도를 라디안으로 변환
+    lat1, lon1 = radians(loccur[0]), radians(loccur[1])
+    lat2, lon2 = radians(locend[0]), radians(locend[1])
 
-    a = sin(diff_lat/2)**2 + cos(loccur[0]) * cos(locend[0]) * sin(diff_log/2)**2
-    c = 2 * atan2(sqrt(a), sqrt(1-a))
-    distance = R*c
+    # Haversine 공식 적용
+    diff_lat = abs(lat2 - lat1)
+    diff_log = abs(lon2 - lon1)
 
-    h = distance/speed
+    a = sin(diff_lat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(diff_log / 2) ** 2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    distance = R * c
+
+    h = distance / speed
+    h *= 60
     return h
 
 def astar_search(object, start, end):
@@ -67,7 +71,6 @@ def astar_search(object, start, end):
 
         # 탐색 완료시 처리
         if current_station == end_station:
-            end_time = time.perf_counter()
             path=[]
 
             # 가중치 합산(실제 걸린 시간)= current_station.g
@@ -78,8 +81,9 @@ def astar_search(object, start, end):
             while tmp is not None:
                 path.append(tmp.name)
                 tmp=tmp.parent
-            print("A* 경로:", path[::-1])
+            print("A* 1 경로:", path[::-1])
             print("최단 거리:", distance)
+            end_time = time.perf_counter()
             print("소요시간:", end_time - start_time, "\n")
             return
             
@@ -105,6 +109,7 @@ def astar_search(object, start, end):
             # h=해당 역에서 종점까지 직선거리 예상 소요시간
             child.h = heuristics(child, end_station)
             child.f = child.g+child.h
+            print(child.f)
             
             # 탐색 중인 역이 이미 open_list에 있고, child의 이동거리가 open_list에서의 이동거리보다 긴 경우 무시
             # (더 짧은 경로가 있기 때문에 더 긴 경로를 굳이 탐색할 필요가 없다.)

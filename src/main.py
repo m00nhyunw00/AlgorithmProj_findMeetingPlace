@@ -1,9 +1,9 @@
 import subway_graph
 import station_info
-from bfs import bfs_search
-from dijk import dijk_search
-from astar import astar_search
-from new import bidirectional_astar_search
+from bfs import bfs
+from dfs import dfs
+from dijk import dijk
+from astar import astar_1, astar_2
 
 def main():
     # 사용 예제
@@ -85,16 +85,12 @@ def main():
     end_station = input("도착역을 입력하세요: ")
     print('\n')
 
-    bfs = bfs_search
-    dijk = dijk_search
-    astar = astar_search
-    bidirectional_astar = bidirectional_astar_search
-
     # 알고리즘 별 경로 탐색
+    dfs.dfs_search(subway, start_station, end_station)
     bfs.bfs_search(subway, start_station, end_station)
     dijk.dijkstra_search(subway, start_station, end_station)
-    astar.astar_search(subway, start_station, end_station)
-    bidirectional_astar.bidirectional_astar_search(subway, start_station, end_station)
+    astar_1.astar_search(subway, start_station, end_station)
+    astar_2.astar_search(subway, start_station, end_station)
 
     subway.visualize()
 

@@ -6,8 +6,10 @@ from astar import astar
 
 def main():
     # 사용 예제
+    # 지하철노선도 그래프 생성
     subway = subway_graph.SubwayGraph()
 
+    # 각 호선별 이름 및 이동 시간(가중치) 정보를 station_info.py에서 가져옴
     line1 = [station_info.line1, station_info.line1_1, station_info.line1_2, station_info.line1_3]
     line1_time = [station_info.line1_time, station_info.line1_1_time, station_info.line1_2_time, station_info.line1_3_time]
 
@@ -62,15 +64,18 @@ def main():
     lines_times = [line1_time, line2_time, line3_time, line4_time, line5_time, line6_time, line7_time, line8_time, line9_time, lineSuinBundang_time, lineSinbundang_time
              , lineGyeongui_time, lineSinlim_time, lineUii_time, lineAirportRailroad_time]
 
+
     for line, name in zip(lines, lines_name):
         subway_graph.make_stations(subway, line)  # 역간 간선 생성 및 연결
         subway_graph.connect_stations(subway, line, name)   # 지하철 노드 생성
 
+    # 간선 가중치 지정
     for line, weights in zip(lines, lines_times):
         for station, weight in zip(line, weights):
             for i in range(len(weight) - 1):
                 station1 = str(station[i])
                 station2 = str(station[i + 1])
+                # station[i], station[i+1] 간 가중치를 weight[i]로 지정
                 subway_graph.add_weight_to_edge(subway, station1, station2, int(weight[i]))
 
 
@@ -79,7 +84,7 @@ def main():
     end_station = input("도착역을 입력하세요: ")
     print('\n')
 
-    # BFS 경로 탐색
+    # 알고리즘 별 경로 탐색
     bfs.bfs_search(subway, start_station, end_station)
     dijk.dijkstra_search(subway, start_station, end_station)
     astar.astar_search(subway, start_station, end_station)

@@ -1,4 +1,5 @@
 import time
+from subway_graph import check_transfer
 
 def dfs_search(object, start_station, end_station):
     start_time = time.perf_counter()
@@ -54,6 +55,10 @@ def dfs_search(object, start_station, end_station):
         next_station = path_list[i + 1]
 
         weight = object.graph[current_station][next_station]['weight']
+        if (i>0):
+            before_station = path_list[i - 1]
+            weight += check_transfer(object, before_station, current_station, next_station)
+            
         distance += weight
 
     print("DFS 경로:", path_list)

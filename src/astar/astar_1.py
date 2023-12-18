@@ -2,6 +2,8 @@ import heapq
 import time
 from math import radians, sin, cos, sqrt, atan2
 from station_info import stations
+from subway_graph import check_transfer
+
 
 # 노드의 f, g, h값 및 이전 역 정보를 알기 위해 Station 클래스 선언
 class Station:
@@ -20,11 +22,11 @@ class Station:
 
 # heuristic: 해당 역에서 도착역까지 직선으로 이동했을 때 걸릴 예상 시간
 def heuristics(current_station, end_station):
-    # 지구 반지름 길이
+    global R, speed
+# 지구 반지름 길이
     R = 6371.0
-
-    # 지하철 8개 노선의 운행 평균 속도
-    speed = 33.6
+# 지하철 평균 운행 속도
+    speed = 36.0505
     # station_info 내의 stations에서 두 역의 위도, 경도 정보를 얻어옴
     loccur = stations[current_station.name]
     locend = stations[end_station.name]
@@ -47,7 +49,6 @@ def heuristics(current_station, end_station):
 
 def astar_search(object, start, end):
     start_time = time.perf_counter()
-
     if start not in object.graph.nodes() or end not in object.graph.nodes():
         print("출발역 또는 도착역이 그래프에 존재하지 않습니다.\n")
         return
@@ -101,6 +102,12 @@ def astar_search(object, start, end):
 
             # 다음 역으로 이동할 때 시간 가중치 계산
             weight = object.graph[current_station.name][child.name]['weight']
+
+            # 환승역 체크
+            try:
+                weight += check_transfer(object, current_station.parent.name, current_station.name, child.name)
+            except:
+                pass
 
             # g=현재까지 걸린 시간+추가로 걸릴 시간
             child.g = current_station.g + weight

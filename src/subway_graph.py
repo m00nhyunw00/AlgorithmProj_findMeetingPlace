@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import networkx as nx
 from matplotlib import rc
+import station_info as si
 
 # font = 'AppleGothic'
 font = 'Malgun Gothic'
@@ -125,3 +126,107 @@ def connect_stations(object, line, line_num):
 
 def add_weight_to_edge(object, station1, station2, weight):
     object.graph[station1][station2]['weight'] = weight
+
+# 매개변수는 그래프, 이전, 현재, 이동할 역 이름 문자열
+def check_transfer(object, parent_station, current_station, child_station):
+    
+    if parent_station == None:
+        return 0
+    
+    before = object.graph.get_edge_data(parent_station, current_station)['edge_class']
+    after = object.graph.get_edge_data(current_station, child_station)['edge_class']
+
+    station_set = {before, after}
+
+    if before == after:
+        return 0
+    else:
+        try:
+            return si.transfer_time[current_station]
+        except:
+            if current_station == "청량리":
+                if station_set == {"line1", "lineGyeongui"}:
+                    return si.cheongryangli_time['1-경의']
+                elif station_set == {"lineGyeongui", "lineSuinBundang"}:
+                    return si.cheongryangli_time['경의-분당']
+                elif station_set == {"lineSuinBundang", "line1"}:
+                    return si.cheongryangli_time['분당-1']
+                else:
+                    print('청량리 오류')
+                    return 0
+            elif current_station == "신설동":
+                if station_set == {"line1", "line2"}:
+                    return si.sinseoldong_time['1-2']
+                elif station_set == {"line2", "lineUii"}:
+                    return si.sinseoldong_time['2-우이']
+                elif station_set == {"lineUii", "line1"}:
+                    return si.sinseoldong_time['우이-1']
+                else:
+                    print('신설동 오류')
+                    return 0
+            elif current_station == "종로3가":
+                if station_set == {"line1", "line3"}:
+                    return si.jongno3ga_time['1-3']
+                elif station_set == {"line3", "line5"}:
+                    return si.jongno3ga_time['3-5']
+                elif station_set == {"line5", "line1"}:
+                    return si.jongno3ga_time['5-1']
+                else:
+                    print('종로3가 오류')
+                    return 0
+            elif current_station == "서울역":
+                if station_set == {"line1", "line4"}:
+                    return si.seoul_time['1-4']
+                elif station_set == {"line4", "lineGyeongui"}:
+                    return si.seoul_time['4-경의']
+                elif station_set == {"lineGyeongui", "line1"}:
+                    return si.seoul_time['경의-1']
+                else:
+                    print('서울역 오류')
+                    return 0
+            elif current_station == "동대문역사문화공원":
+                if station_set == {"line2", "line4"}:
+                    return si.ddp_time['2-4']
+                elif station_set == {"line4", "line5"}:
+                    return si.ddp_time['4-5']
+                elif station_set == {"line5", "line2"}:
+                    return si.ddp_time['5-2']
+                else:
+                    print("DDP 오류")
+                    return 0
+            elif current_station == "고속터미널":
+                if station_set == {"line3", "line7"}:
+                    return si.gosok_time['3-7']
+                elif station_set == {"line7", "line9"}:
+                    return si.gosok_time['7-9']
+                elif station_set == {"line9", "line3"}:
+                    return si.gosok_time['9-3']
+                else:
+                    print("고속터미널 오류")
+                    return 0
+            elif current_station == "공덕":
+                if station_set == {"line5", "line6"}:
+                    return si.gongduk_time['5-6']
+                elif station_set == {"line6", "lineGyeongui"}:
+                    return si.gongduk_time['6-경의']
+                elif station_set == {"lineGyeongui", "line5"}:
+                    return si.gongduk_time['경의-5']
+                else:
+                    print("공덕 오류")
+                    return 0
+            elif current_station == "왕십리":
+                if station_set == {"line2", "line5"}:
+                    return si.wangsimni_time['2-5']
+                elif station_set == {"line2", "lineSuinBundang"}:
+                    return si.wangsimni_time['2-분당']
+                elif station_set == {"line2", "lineGyeongui"}:
+                    return si.wangsimni_time['2-경의']
+                elif station_set == {"line5", "lineSuinBundang"}:
+                    return si.wangsimni_time['5-분당']
+                elif station_set == {"line5", "lineGyeongui"}:
+                    return si.wangsimni_time['5-경의']
+                elif station_set == {"lineSuinBundang", "lineGyeongui"}:
+                    return si.wangsimni_time['분당-경의']
+                else:
+                    print("왕십리 오류")
+                    return 0

@@ -1,5 +1,6 @@
 import heapq
 import time
+from subway_graph import check_transfer
 
 def dijkstra_search(object, start_station, end_station):
     start_time = time.perf_counter()
@@ -21,14 +22,16 @@ def dijkstra_search(object, start_station, end_station):
     while heap:
         # 현재 측정 거리가 가장 작은 노드 pop
         current_distance, current_station = heapq.heappop(heap)
-
         # 큐 안의 측정값이 현재까지 측정한 거리보다 큰 경우 해당 경로 무시
         if current_distance > distances[current_station]:
             continue
-
+        
         for neighbor in object.graph.neighbors(current_station):
-            # 지금 분석중인 역에 대해 현재까지 측정한 거리+다음 역으로 이동하는 거리(가중치) = distance 
+
+            # 지금 분석중인 역에 대해 현재까지 측정한 거리+다음 역으로 이동하는 거리(가중치)+환승 시 승강장 이동 시간(가중치) = distance 
             weight = object.graph[current_station][neighbor]['weight']
+            weight += check_transfer(object, previous_nodes[current_station], current_station, neighbor)
+
             distance = current_distance + weight
             
             # 구한 distance 값이 기존 역의 최단거리보다 짧은 경우 update, 힙에 push

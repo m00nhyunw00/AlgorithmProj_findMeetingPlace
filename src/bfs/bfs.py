@@ -1,5 +1,6 @@
 from queue import Queue
 import time
+from subway_graph import check_transfer
 
 def bfs_search(object, start_station, end_station):
     start_time = time.perf_counter()
@@ -55,8 +56,12 @@ def bfs_search(object, start_station, end_station):
         next_station = path_list[i + 1]
 
         weight = object.graph[current_station][next_station]['weight']
+        if (i>0):
+            before_station = path_list[i - 1]
+            weight += check_transfer(object, before_station, current_station, next_station)
+            
         distance += weight
-
+        
     print("BFS 경로:", path_list)
     print("최단 거리:", distance)
     print("소요시간:", end_time - start_time, "\n")

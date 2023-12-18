@@ -43,7 +43,7 @@ def heuristics(current_station, end_station):
     return h
 
 def astar_search(object, start, end):
-    start_time = time.time()
+    start_time = time.perf_counter()
 
     if start not in object.graph.nodes() or end not in object.graph.nodes():
         print("출발역 또는 도착역이 그래프에 존재하지 않습니다.\n")
@@ -67,7 +67,7 @@ def astar_search(object, start, end):
 
         # 탐색 완료시 처리
         if current_station == end_station:
-            end_time = time.time()
+            end_time = time.perf_counter()
             path=[]
 
             # 가중치 합산(실제 걸린 시간)= current_station.g
@@ -78,7 +78,7 @@ def astar_search(object, start, end):
             while tmp is not None:
                 path.append(tmp.name)
                 tmp=tmp.parent
-            print("A* 경로:", path.reverse())
+            print("A* 경로:", path[::-1])
             print("최단 거리:", distance)
             print("소요시간:", end_time - start_time, "\n")
             return

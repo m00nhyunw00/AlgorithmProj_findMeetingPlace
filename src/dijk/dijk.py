@@ -40,6 +40,8 @@ def dijkstra_search(object, start_station, end_station):
                 previous_nodes[neighbor] = current_station
                 heapq.heappush(heap, (distance, neighbor))
 
+    end_time = time.perf_counter()  # 탐색 완료
+
     # 경로 출력
     path = []
     current = end_station
@@ -52,7 +54,8 @@ def dijkstra_search(object, start_station, end_station):
         print("경로가 존재하지 않습니다.\n")
         return
 
-    print("다익스트라 경로:", path)
-    print("최단 거리:", distances[end_station])
-    end_time = time.perf_counter()
-    print("소요시간:", end_time - start_time, "\n")
+    # print("다익스트라 경로:", path)
+    # print("최단 거리:", distances[end_station])
+    # print("소요시간:", end_time - start_time, "\n")
+
+    return path, distance, end_time - start_time

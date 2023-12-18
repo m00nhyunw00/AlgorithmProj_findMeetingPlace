@@ -3,8 +3,8 @@ import networkx as nx
 from matplotlib import rc
 import station_info as si
 
-# font = 'AppleGothic'
-font = 'Malgun Gothic'
+font = 'AppleGothic'
+# font = 'Malgun Gothic'
 
 rc('font', family=font)
 plt.rcParams['axes.unicode_minus'] = False

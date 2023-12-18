@@ -2,6 +2,7 @@ import subway_graph
 import station_info
 from bfs import bfs
 from dijk import dijk
+from astar import astar
 
 def main():
     # 사용 예제
@@ -81,7 +82,7 @@ def main():
     # BFS 경로 탐색
     bfs.bfs_search(subway, start_station, end_station)
     dijk.dijkstra_search(subway, start_station, end_station)
-
+    astar.astar_search(subway, start_station, end_station)
     subway.visualize()
 
 if __name__ == "__main__":

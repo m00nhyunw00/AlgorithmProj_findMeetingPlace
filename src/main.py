@@ -114,7 +114,7 @@ def recommed_process(object):
     for i in range(len(result_a2)):
         print(f"{result_a2[i][0]}> 평균이동시간: 약 {int(result_a2[i][1])}분 / 표준편차: {result_a2[i][2]}")
         for path in paths[i]:
-            print(f"------> {path[0]}: {path[1]} > 약 {path[2]}분 소요")
+            print(f"------> {path[0]}: {path[1]} > 약 {int(path[2])}분 소요")
         print()
 
     print(f"\nDfs 탐색 시간 : {time_dfs}")

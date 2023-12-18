@@ -47,9 +47,21 @@ compare_num_stations_times("Sinlim", station_info.lineSinlim, station_info.lineS
 
 compare_num_stations_times("Uii", station_info.lineUii, station_info.lineUii_time)
 
-compare_num_stations_times("AirportRailroad", station_info.lineAirportRailroad, station_info.lineAirportRailroad_time)
+import networkx as nx
 
+# 그래프 생성
+G = nx.Graph()
 
+# 간선 추가
+G.add_edge('A', 'B', weight=3)
+G.add_edge('B', 'C', weight=2)
+G.add_edge('C', 'A', weight=1)
+
+# A와 B가 연결된 간선 조회
+edges_AB = G.edges(('A', 'B'))
+
+# 결과 출력
+print("Edges between 'A' and 'B':", edges_AB)
 
 
 

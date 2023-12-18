@@ -35,6 +35,8 @@ def dfs_search(object, start_station, end_station):
         print("경로가 존재하지 않습니다.\n")
         return
 
+    end_time = time.perf_counter()  # 탐색 완료
+
     # 경로 출력
     current = end_station
     path_list = [current]
@@ -47,7 +49,6 @@ def dfs_search(object, start_station, end_station):
 
     distance = 0
 
-    end_time = time.perf_counter()
 
     for i in range(len(path_list) - 1):
         current_station = path_list[i]
@@ -56,7 +57,9 @@ def dfs_search(object, start_station, end_station):
         weight = object.graph[current_station][next_station]['weight']
         distance += weight
 
-    print("DFS 경로:", path_list)
-    print("최단 거리:", distance)
-    print("소요시간:", end_time - start_time, "\n")
+    # print("DFS 경로:", path_list)
+    # print("최단 거리:", distance)
+    # print("소요시간:", end_time - start_time, "\n")
+
+    return path_list, distance, end_time - start_time
 

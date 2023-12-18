@@ -8,16 +8,19 @@ def bfs_search(object, start_station, end_station):
         print("출발역 또는 도착역이 그래프에 존재하지 않습니다.\n")
         return
 
+    # BFS 구현에 필요한 visited, 큐 선언
     visited = set()
     queue = Queue()
     path = {}
 
+    # start_station에서 시작
     queue.put(start_station)
     visited.add(start_station)
 
     while not queue.empty():
         current_station = queue.get()
 
+        # 그래프 탐색 시 주변 노드(지하철역)들을 큐에 넣고 visited 표시
         for neighbor in object.graph.neighbors(current_station):
             if neighbor not in visited:
                 queue.put(neighbor)
@@ -25,7 +28,7 @@ def bfs_search(object, start_station, end_station):
                 path[neighbor] = current_station
 
                 if neighbor == end_station:
-                    # 경로가 찾아졌으면 탐색 종료
+                    # 큐에서 end_station을 찾으면 탐색 종료
                     queue.queue.clear()
                     break
 

@@ -53,17 +53,14 @@ def main():
     lineUii = [station_info.lineUii]
     lineUii_time = [station_info.lineUii_time]
 
-    lineAirportRailroad = [station_info.lineAirportRailroad]
-    lineAirportRailroad_time = [station_info.lineAirportRailroad_time]
-
     lines_name = ['line1', 'line2', 'line3', 'line4', 'line5', 'line6', 'line7', 'line8', 'line9', 'lineSuinBundang', 'lineSinbundang'
              , 'lineGyeongui', 'lineSinlim', 'lineUii', 'lineAirportRailroad']
 
     lines = [line1, line2, line3, line4, line5, line6, line7, line8, line9, lineSuinBundang, lineSinbundang
-             , lineGyeongui, lineSinlim, lineUii, lineAirportRailroad]
+             , lineGyeongui, lineSinlim, lineUii]
 
     lines_times = [line1_time, line2_time, line3_time, line4_time, line5_time, line6_time, line7_time, line8_time, line9_time, lineSuinBundang_time, lineSinbundang_time
-             , lineGyeongui_time, lineSinlim_time, lineUii_time, lineAirportRailroad_time]
+             , lineGyeongui_time, lineSinlim_time, lineUii_time]
 
 
     for line, name in zip(lines, lines_name):

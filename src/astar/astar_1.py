@@ -24,8 +24,7 @@ def heuristics(current_station, end_station):
     R = 6371.0
 
     # 지하철 8개 노선의 운행 평균 속도
-    # speed = 33.6
-    speed = 70
+    speed = 33.6
     # station_info 내의 stations에서 두 역의 위도, 경도 정보를 얻어옴
     loccur = stations[current_station.name]
     locend = stations[end_station.name]
@@ -109,7 +108,6 @@ def astar_search(object, start, end):
             # h=해당 역에서 종점까지 직선거리 예상 소요시간
             child.h = heuristics(child, end_station)
             child.f = child.g+child.h
-            print(child.f)
             
             # 탐색 중인 역이 이미 open_list에 있고, child의 이동거리가 open_list에서의 이동거리보다 긴 경우 무시
             # (더 짧은 경로가 있기 때문에 더 긴 경로를 굳이 탐색할 필요가 없다.)

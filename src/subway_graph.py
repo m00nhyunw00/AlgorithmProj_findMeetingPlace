@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 import networkx as nx
 from matplotlib import rc
 
-# font = 'AppleGothic'
-font = 'Malgun Gothic'
+font = 'AppleGothic'
+# font = 'Malgun Gothic'
 
 rc('font', family=font)
 plt.rcParams['axes.unicode_minus'] = False

@@ -79,6 +79,8 @@ def astar_search(object, start, end):
 
         # 탐색 완료시 처리
         if current_station == end_station:
+            end_time = time.perf_counter()  # 탐색 완료
+
             path = []
 
             # 가중치 합산(실제 걸린 시간)= current_station.g
@@ -89,11 +91,10 @@ def astar_search(object, start, end):
             while tmp is not None:
                 path.append(tmp.name)
                 tmp = tmp.parent
-            print("A* 2 경로:", path[::-1])
-            print("최단 거리:", distance)
-            end_time = time.perf_counter()
-            print("소요시간:", end_time - start_time, "\n")
-            return
+            # print("A* 2 경로:", path[::-1])
+            # print("최단 거리:", distance)
+            # print("소요시간:", end_time - start_time, "\n")
+            return path[::-1], distance, end_time - start_time
 
         children = []
         # neighbor는 역 이름

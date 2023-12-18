@@ -49,8 +49,7 @@ def dijkstra_search(object, start_station, end_station):
         print("경로가 존재하지 않습니다.\n")
         return
 
-    end_time = time.perf_counter()
-
     print("다익스트라 경로:", path)
     print("최단 거리:", distances[end_station])
+    end_time = time.perf_counter()
     print("소요시간:", end_time - start_time, "\n")

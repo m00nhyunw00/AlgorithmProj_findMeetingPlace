@@ -4,7 +4,6 @@ from math import radians, sin, cos, sqrt, atan2
 from station_info import stations
 from subway_graph import check_transfer
 
-
 # 노드의 f, g, h값 및 이전 역 정보를 알기 위해 Station 클래스 선언
 class Station:
     def __init__(self, name, parent=None):
@@ -49,6 +48,7 @@ def heuristics(current_station, end_station):
 
 def astar_search(object, start, end):
     start_time = time.perf_counter()
+    search_num = 0  # 노드 방문 횟수
     if start not in object.graph.nodes() or end not in object.graph.nodes():
         print("출발역 또는 도착역이 그래프에 존재하지 않습니다.\n")
         return
@@ -63,10 +63,11 @@ def astar_search(object, start, end):
     heapq.heappush(open_list, (start_station.f, start_station))
     
     # open_list가 없는 경우 중단 (그럴일 없음)
-    while len(open_list)>0:
+    while len(open_list) > 0:
 
         # 현재 평가값 f가 가장 작은 노드를 pop, closed에 넣음 (방문한 노드는 재방문 x)
         current_station = heapq.heappop(open_list)[1]
+        search_num += 1    # 노드 방문 횟수 카운팅
         closed_list.append(current_station)
 
         # 탐색 완료시 처리
@@ -87,7 +88,7 @@ def astar_search(object, start, end):
             # print("A* 1 경로:", path[::-1])
             # print("최단 거리:", distance)
             # print("소요시간:", end_time - start_time, "\n")
-            return path[::-1], distance, end_time - start_time
+            return path[::-1], distance, end_time - start_time, search_num
             
         
         children = []

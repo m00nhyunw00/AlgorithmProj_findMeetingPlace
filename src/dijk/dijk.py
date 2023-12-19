@@ -4,6 +4,7 @@ from subway_graph import check_transfer
 
 def dijkstra_search(object, start_station, end_station):
     start_time = time.perf_counter()
+    search_num = 0  # 노드 방문 횟수
 
     if start_station not in object.graph.nodes() or end_station not in object.graph.nodes():
         print("출발역 또는 도착역이 그래프에 존재하지 않습니다.\n")
@@ -17,9 +18,11 @@ def dijkstra_search(object, start_station, end_station):
     distances[start_station] = 0
     previous_nodes = {node: None for node in object.graph.nodes()}
     # 최소 힙 구현, heappop()의 반환값은 측정 거리(0번 인덱스 값)가 가장 작은 노드
+    search_num += 1
     heap = [(0, start_station)]
 
     while heap:
+        search_num += 1 # 노드 방문 횟수 카운팅
         # 현재 측정 거리가 가장 작은 노드 pop
         current_distance, current_station = heapq.heappop(heap)
         # 큐 안의 측정값이 현재까지 측정한 거리보다 큰 경우 해당 경로 무시

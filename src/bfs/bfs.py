@@ -4,6 +4,7 @@ from subway_graph import check_transfer
 
 def bfs_search(object, start_station, end_station):
     start_time = time.perf_counter()
+    search_num = 0  # 노드 방문 횟수
 
     if start_station not in object.graph.nodes() or end_station not in object.graph.nodes():
         print("출발역 또는 도착역이 그래프에 존재하지 않습니다.\n")
@@ -19,6 +20,7 @@ def bfs_search(object, start_station, end_station):
     visited.add(start_station)
 
     while not queue.empty():
+        search_num += 1 # 노드 방문 횟수 카운팅
         current_station = queue.get()
 
         # 그래프 탐색 시 주변 노드(지하철역)들을 큐에 넣고 visited 표시
@@ -67,4 +69,4 @@ def bfs_search(object, start_station, end_station):
     # print("최단 거리:", distance)
     # print("소요시간:", end_time - start_time, "\n")
 
-    return path_list, distance, end_time - start_time
+    return path_list, distance, end_time - start_time, search_num

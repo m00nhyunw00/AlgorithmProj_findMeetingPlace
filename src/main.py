@@ -105,11 +105,11 @@ def recommed_process(object):
 
         meeting_places.append(meeting_place)
     print("\n------------------------------------------------------------------->>\n")
-    result_dfs, time_dfs, paths_dfs = recommend_algorithm(object, users, meeting_places, "Dfs")
-    result_bfs, time_bfs, paths_bfs = recommend_algorithm(object, users, meeting_places, "Bfs")
-    result_dijk, time_dijk, paths_dijk = recommend_algorithm(object, users, meeting_places, "Dijkstra")
-    result_a1, time_a1, paths_a1 = recommend_algorithm(object, users, meeting_places, "A*1")
-    result_a2, time_a2, paths_a2 = recommend_algorithm(object, users, meeting_places, "A*2")
+    result_dfs, time_dfs, paths_dfs, search_num_dfs = recommend_algorithm(object, users, meeting_places, "Dfs")
+    result_bfs, time_bfs, paths_bfs, search_num_bfs = recommend_algorithm(object, users, meeting_places, "Bfs")
+    result_dijk, time_dijk, paths_dijk, search_num_dijk = recommend_algorithm(object, users, meeting_places, "Dijkstra")
+    result_a1, time_a1, paths_a1, search_num_a1 = recommend_algorithm(object, users, meeting_places, "A*1")
+    result_a2, time_a2, paths_a2, search_num_a2 = recommend_algorithm(object, users, meeting_places, "A*2")
     print
     for i in range(len(result_dfs)):
         print("DFS:")
@@ -139,14 +139,20 @@ def recommed_process(object):
         print("A* Ver.2:")
         print(f"{result_a2[i][0]}> 평균이동시간: 약 {int(result_a2[i][1])}분 / 표준편차: {result_a2[i][2]}")
         for path in paths_a2[i]:
-            print(f"------> {path[0]}: {path[1]} > 약 {path[2]}분 소요")
+            print(f"------> {path[0]}: {path[1]} > 약 {int(path[2])}분 소요")
         print()
 
     print(f"\nDfs 탐색 시간 : {time_dfs}")
     print(f"Bfs 탐색 시간 : {time_bfs}")
     print(f"Dijkstra 탐색 시간 : {time_dijk}")
     print(f"A* Ver.1 탐색 시간 : {time_a1}")
-    print(f"A* Ver.2 탐색 시간 : {time_a2}")
+    print(f"A* Ver.2 탐색 시간 : {time_a2}\n")
+
+    print(f"\nDfs 탐색 횟수 : {search_num_dfs}")
+    print(f"Bfs 탐색 횟수 : {search_num_bfs}")
+    print(f"Dijkstra 탐색 횟수 : {search_num_dijk}")
+    print(f"A* Ver.1 탐색 횟수 : {search_num_a1}")
+    print(f"A* Ver.2 탐색 횟수 : {search_num_a2}")
 
     return
 
@@ -165,15 +171,15 @@ def recommend_algorithm(object, users, meeting_places, algorithm):
         for j, user in enumerate(users):
             path, distance, time = None, None, None
             if algorithm == "Bfs":
-                path, distance, time = bfs.bfs_search(object, user.position, place)
+                path, distance, time, search_num = bfs.bfs_search(object, user.position, place)
             elif algorithm == "Dfs":
-                path, distance, time = dfs.dfs_search(object, user.position, place)
+                path, distance, time, search_num = dfs.dfs_search(object, user.position, place)
             elif algorithm == "Dijkstra":
-                path, distance, time = dijk.dijkstra_search(object, user.position, place)
+                path, distance, time, search_num = dijk.dijkstra_search(object, user.position, place)
             elif algorithm == "A*1":
-                path, distance, time = astar_1.astar_search(object, user.position, place)
+                path, distance, time, search_num = astar_1.astar_search(object, user.position, place)
             elif algorithm == "A*2":
-                path, distance, time = astar_2.astar_search(object, user.position, place)
+                path, distance, time, search_num = astar_2.astar_search(object, user.position, place)
             entire_time += time
             distances[i][j] = distance
             paths[i][j] = [user.name, path, distance]
@@ -183,7 +189,7 @@ def recommend_algorithm(object, users, meeting_places, algorithm):
         mean, std = calculate_mean_and_std(distances[i])
         result.append([place, mean, std])
 
-    return result, entire_time, paths
+    return result, entire_time, paths, search_num
 
 def main():
     subway = subway_graph.SubwayGraph()  # 지하철 노선도 그래프 생성

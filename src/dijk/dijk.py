@@ -61,4 +61,4 @@ def dijkstra_search(object, start_station, end_station):
     # print("최단 거리:", distances[end_station])
     # print("소요시간:", end_time - start_time, "\n")
 
-    return path, distances[end_station], end_time - start_time
+    return path, distances[end_station], end_time - start_time, search_num

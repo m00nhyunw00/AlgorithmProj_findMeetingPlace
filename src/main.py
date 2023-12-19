@@ -109,8 +109,8 @@ def recommed_process(object):
     result_bfs, time_bfs, paths_bfs, search_num_bfs = recommend_algorithm(object, users, meeting_places, "Bfs")
     result_dijk, time_dijk, paths_dijk, search_num_dijk = recommend_algorithm(object, users, meeting_places, "Dijkstra")
     result_a1, time_a1, paths_a1, search_num_a1 = recommend_algorithm(object, users, meeting_places, "A*1")
-    result_a2, time_a2, paths_a2, search_num_a2 = recommend_algorithm(object, users, meeting_places, "A*2")
-    print
+    result_a2, time_a2, paths_a2우. search_num_a2 = recommend_algorithm(object, users, meeting_places, "A*2")
+
     for i in range(len(result_a2)):
         print(f"{result_a2[i][0]}> 평균이동시간: 약 {int(result_a2[i][1])}분 / 표준편차: {result_a2[i][2]}")
         for path in paths_a2[i]:

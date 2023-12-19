@@ -111,6 +111,7 @@ def recommed_process(object):
     result_a1, time_a1, paths_a1, search_num_a1 = recommend_algorithm(object, users, meeting_places, "A*1")
     result_a2, time_a2, paths_a2, search_num_a2 = recommend_algorithm(object, users, meeting_places, "A*2")
     print
+    '''
     for i in range(len(result_dfs)):
         print("DFS:")
         print(f"{result_dfs[i][0]}> 평균이동시간: 약 {int(result_dfs[i][1])}분 / 표준편차: {result_dfs[i][2]}")
@@ -135,6 +136,7 @@ def recommed_process(object):
         for path in paths_a1[i]:
             print(f"------> {path[0]}: {path[1]} > 약 {path[2]}분 소요")
         print()
+    '''
     for i in range(len(result_a2)):
         print("A* Ver.2:")
         print(f"{result_a2[i][0]}> 평균이동시간: 약 {int(result_a2[i][1])}분 / 표준편차: {result_a2[i][2]}")
@@ -193,7 +195,6 @@ def recommend_algorithm(object, users, meeting_places, algorithm):
 
 def main():
     subway = subway_graph.SubwayGraph()  # 지하철 노선도 그래프 생성
-    # subway.visualize()  # 지하철 노선도 그래프 시각화
 
     for line, name in zip(lines, station_info.line_class_name):
         subway_graph.make_stations(subway, line)  # 역간 간선 생성 및 연결
@@ -206,6 +207,7 @@ def main():
                 station2 = str(station[i + 1])
                 subway_graph.add_weight_to_edge(subway, station1, station2, int(weight[i]))  # 간선 가중치 설정
 
+    subway.visualize()  # 지하철 노선도 그래프 시각화
     recommed_process(subway)  # 추천 프로세스 실행
 
 

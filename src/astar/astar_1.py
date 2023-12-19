@@ -22,10 +22,10 @@ class Station:
 
 # heuristic: 해당 역에서 도착역까지 직선으로 이동했을 때 걸릴 예상 시간
 def heuristics(current_station, end_station):
-    global R, speed
-# 지구 반지름 길이
+    
+    # 지구 반지름 길이
     R = 6371.0
-# 지하철 평균 운행 속도
+    # 지하철 평균 운행 속도
     speed = 36.0505
     # station_info 내의 stations에서 두 역의 위도, 경도 정보를 얻어옴
     loccur = stations[current_station.name]

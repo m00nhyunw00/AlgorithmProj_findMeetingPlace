@@ -30,7 +30,6 @@ class Station:
 from math import sin, cos, sqrt, atan2, radians
 
 def heuristics(current_station, end_station):
-    global avg_time, avg_distance, avg_speed, R
     
     # station_info 내의 stations에서 두 역의 위도, 경도 정보를 얻어옴
     loccur = stations[current_station.name]
